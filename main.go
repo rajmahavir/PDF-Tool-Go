@@ -27,13 +27,13 @@ func main() {
 	http.HandleFunc("/pdfinfo", handlePDFInfo)
 
 	port := "8080"
-	
+
 	fmt.Printf("Server starting on:\n")
 	fmt.Printf("  Local:   http://localhost:%s\n", port)
 	fmt.Printf("  Network: http://[YOUR-IP-ADDRESS]:%s\n", port)
 	fmt.Printf("\nReplace [YOUR-IP-ADDRESS] with your computer's IP address\n")
 	fmt.Printf("To find it on Windows, run: ipconfig\n\n")
-	
+
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil))
 }
 
@@ -1550,18 +1550,12 @@ func handleMerge(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if pdf1PageCount < 2 {
-		http.Error(w, fmt.Sprintf("First PDF must have multiple pages (found %d page)", pdf1PageCount), http.StatusBadRequest)
-		return
-	}
-
-	if pdf2PageCount < 2 {
-		http.Error(w, fmt.Sprintf("Second PDF must have multiple pages (found %d page)", pdf2PageCount), http.StatusBadRequest)
-		return
-	}
-
 	if pageNum > pdf1PageCount {
-		http.Error(w, fmt.Sprintf("Page number %d exceeds first PDF page count (%d pages)", pageNum, pdf1PageCount), http.StatusBadRequest)
+		pageWord := "pages"
+		if pdf1PageCount == 1 {
+			pageWord = "page"
+		}
+		http.Error(w, fmt.Sprintf("Page number %d exceeds first PDF page count (%d %s)", pageNum, pdf1PageCount, pageWord), http.StatusBadRequest)
 		return
 	}
 
@@ -1614,21 +1608,21 @@ func mergePDFs(pdf1Path, pdf2Path, outputPath string, insertAfterPage int) error
 	tempDir := filepath.Dir(pdf1Path)
 	part1Path := filepath.Join(tempDir, "part1.pdf")
 	part2Path := filepath.Join(tempDir, "part2.pdf")
-	
+
 	if insertAfterPage > 0 {
 		pageRange := fmt.Sprintf("1-%d", insertAfterPage)
 		if err := api.TrimFile(pdf1Path, part1Path, []string{pageRange}, nil); err != nil {
 			return fmt.Errorf("failed to create first part: %w", err)
 		}
 	}
-	
+
 	if insertAfterPage < ctx1.PageCount {
 		pageRange := fmt.Sprintf("%d-%d", insertAfterPage+1, ctx1.PageCount)
 		if err := api.TrimFile(pdf1Path, part2Path, []string{pageRange}, nil); err != nil {
 			return fmt.Errorf("failed to create second part: %w", err)
 		}
 	}
-	
+
 	var filesToMerge []string
 	if insertAfterPage > 0 {
 		filesToMerge = append(filesToMerge, part1Path)
@@ -1637,7 +1631,7 @@ func mergePDFs(pdf1Path, pdf2Path, outputPath string, insertAfterPage int) error
 	if insertAfterPage < ctx1.PageCount {
 		filesToMerge = append(filesToMerge, part2Path)
 	}
-	
+
 	if err := api.MergeCreateFile(filesToMerge, outputPath, false, nil); err != nil {
 		return fmt.Errorf("failed to merge PDFs: %w", err)
 	}
@@ -1655,19 +1649,19 @@ func mergePDFs(pdf1Path, pdf2Path, outputPath string, insertAfterPage int) error
 func parsePageNumbers(pageStr string) []int {
 	var pages []int
 	parts := strings.Split(pageStr, ",")
-	
+
 	for _, part := range parts {
 		part = strings.TrimSpace(part)
 		if part == "" {
 			continue
 		}
-		
+
 		pageNum, err := strconv.Atoi(part)
 		if err == nil && pageNum > 0 {
 			pages = append(pages, pageNum)
 		}
 	}
-	
+
 	return pages
 }
 
@@ -1676,14 +1670,14 @@ func getPagesToKeep(totalPages int, pagesToRemove []int) []int {
 	for _, page := range pagesToRemove {
 		removeMap[page] = true
 	}
-	
+
 	var pagesToKeep []int
 	for i := 1; i <= totalPages; i++ {
 		if !removeMap[i] {
 			pagesToKeep = append(pagesToKeep, i)
 		}
 	}
-	
+
 	return pagesToKeep
 }
 
@@ -1691,11 +1685,11 @@ func createPageRanges(pages []int) []string {
 	if len(pages) == 0 {
 		return nil
 	}
-	
+
 	var ranges []string
 	start := pages[0]
 	end := pages[0]
-	
+
 	for i := 1; i < len(pages); i++ {
 		if pages[i] == end+1 {
 			end = pages[i]
@@ -1709,12 +1703,12 @@ func createPageRanges(pages []int) []string {
 			end = pages[i]
 		}
 	}
-	
+
 	if start == end {
 		ranges = append(ranges, fmt.Sprintf("%d", start))
 	} else {
 		ranges = append(ranges, fmt.Sprintf("%d-%d", start, end))
 	}
-	
+
 	return ranges
 }
