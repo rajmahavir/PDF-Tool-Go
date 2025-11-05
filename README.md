@@ -79,6 +79,82 @@ docker-compose up -d
 
 The application will be available at http://localhost:8080
 
+## Railway Deployment
+
+Deploy to Railway using automatic Nixpacks detection (recommended) or Docker.
+
+### 🚀 Quick Deploy (Recommended)
+
+**Railway automatically detects and deploys Go applications!**
+
+1. **Connect to Railway**
+   - Go to [Railway](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository
+   - Railway auto-detects configuration ✨
+
+2. **Deploy!**
+   - No configuration needed
+   - Railway uses Nixpacks to build
+   - App deploys automatically
+
+### 📋 Deployment Methods
+
+This repository supports **3 deployment methods**:
+
+1. **Nixpacks (Automatic)** - Recommended ⭐
+   - Uses: `nixpacks.toml`, `Procfile`
+   - No Docker required
+   - Fastest and simplest
+
+2. **Dockerfile (Multi-stage)**
+   - Uses: `Dockerfile`
+   - Optimized production build
+   - Smaller image size
+
+3. **Dockerfile.railway (Simple)**
+   - Uses: `Dockerfile.railway`
+   - Single-stage build
+   - Fallback option
+
+### 🔧 Configuration Files
+
+The repository includes complete Railway configuration:
+- `nixpacks.toml` - Nixpacks build configuration
+- `Procfile` - Start command
+- `railway.json` - Railway settings
+- `railway.toml` - Alternative Railway config
+- `Dockerfile` - Production Docker build
+- `Dockerfile.railway` - Simplified Docker build
+
+### 📚 Detailed Guide
+
+**Having deployment issues?** See the complete guide:
+📖 **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Comprehensive Railway deployment guide with troubleshooting
+
+### ⚡ Railway CLI (Alternative)
+
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login
+railway login
+
+# Initialize project
+railway init
+
+# Deploy
+railway up
+```
+
+### 🔄 Switching Deployment Methods
+
+In Railway Dashboard → Settings → Build:
+- **For Nixpacks:** Set Builder = "Nixpacks"
+- **For Docker:** Set Builder = "Dockerfile", Path = "Dockerfile"
+- **For Simple Docker:** Set Builder = "Dockerfile", Path = "Dockerfile.railway"
+
 ## Project Structure
 
 ```
