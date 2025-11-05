@@ -1,5 +1,5 @@
 # Simplified Dockerfile for Railway deployment
-FROM golang:1.23-alpine
+FROM golang:1.24-alpine
 
 # Install dependencies
 RUN apk add --no-cache git ca-certificates

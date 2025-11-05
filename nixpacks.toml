@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["go_1_23"]
+nixPkgs = ["go"]
 
 [phases.build]
 cmds = ["go mod download", "go build -ldflags='-w -s' -o pdf-tools ."]
