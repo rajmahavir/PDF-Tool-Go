@@ -23,7 +23,7 @@ Select pages to remove with a visual page selector and instant preview.
 
 ## Tech Stack
 
-- **Backend**: Go 1.21+
+- **Backend**: Go 1.23+
 - **PDF Library**: [pdfcpu](https://github.com/pdfcpu/pdfcpu) v0.11.1
 - **Frontend**: Vanilla JavaScript with embedded HTML/CSS
 - **Server**: Native Go HTTP server
@@ -32,7 +32,7 @@ Select pages to remove with a visual page selector and instant preview.
 
 ### Prerequisites
 
-- Go 1.21 or higher
+- Go 1.23 or higher
 - Git
 
 ### Quick Start
