@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"pdf-merger/handlers"
 )
 
@@ -17,7 +18,11 @@ func main() {
 	http.HandleFunc("/remove-pages", handlers.HandleRemovePages)
 	http.HandleFunc("/pdfinfo", handlers.HandlePDFInfo)
 
-	port := "8080"
+	// Get port from environment variable or use default
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	fmt.Printf("Server starting on:\n")
 	fmt.Printf("  Local:   http://localhost:%s\n", port)

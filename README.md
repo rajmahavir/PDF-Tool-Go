@@ -79,6 +79,56 @@ docker-compose up -d
 
 The application will be available at http://localhost:8080
 
+## Railway Deployment
+
+Deploy to Railway with one click or manually:
+
+### One-Click Deploy
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/rajmahavir/PDF-Tools)
+
+### Manual Deployment
+
+1. **Fork or clone this repository**
+
+2. **Connect to Railway**
+   - Go to [Railway](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository
+
+3. **Configuration**
+   - Railway will automatically detect the Dockerfile
+   - No additional environment variables needed (PORT is auto-configured)
+   - The app will be deployed and accessible via Railway's generated URL
+
+4. **Alternative: Using Railway CLI**
+   ```bash
+   # Install Railway CLI
+   npm install -g @railway/cli
+
+   # Login
+   railway login
+
+   # Initialize project
+   railway init
+
+   # Deploy
+   railway up
+   ```
+
+### Railway Configuration Files
+
+The repository includes:
+- `railway.json` - Railway deployment configuration
+- `railway.toml` - Alternative configuration format
+- `Dockerfile.railway` - Simplified Dockerfile for Railway (optional)
+
+If you encounter build issues, you can use the simplified Dockerfile:
+```bash
+# In Railway dashboard, set custom Dockerfile path:
+# Settings → Build → Dockerfile Path: Dockerfile.railway
+```
+
 ## Project Structure
 
 ```
