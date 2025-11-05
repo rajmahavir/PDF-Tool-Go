@@ -1,0 +1,19 @@
+# Ultra-simple Railway Dockerfile
+FROM golang:1.23
+
+WORKDIR /app
+
+# Copy everything
+COPY . .
+
+# Download dependencies
+RUN go mod download
+
+# Build
+RUN go build -o pdf-tools .
+
+# Expose port
+EXPOSE 8080
+
+# Run
+CMD ["./pdf-tools"]
