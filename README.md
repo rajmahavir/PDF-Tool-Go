@@ -81,53 +81,79 @@ The application will be available at http://localhost:8080
 
 ## Railway Deployment
 
-Deploy to Railway with one click or manually:
+Deploy to Railway using automatic Nixpacks detection (recommended) or Docker.
 
-### One-Click Deploy
+### 🚀 Quick Deploy (Recommended)
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/rajmahavir/PDF-Tools)
+**Railway automatically detects and deploys Go applications!**
 
-### Manual Deployment
-
-1. **Fork or clone this repository**
-
-2. **Connect to Railway**
+1. **Connect to Railway**
    - Go to [Railway](https://railway.app)
    - Click "New Project" → "Deploy from GitHub repo"
    - Select your repository
+   - Railway auto-detects configuration ✨
 
-3. **Configuration**
-   - Railway will automatically detect the Dockerfile
-   - No additional environment variables needed (PORT is auto-configured)
-   - The app will be deployed and accessible via Railway's generated URL
+2. **Deploy!**
+   - No configuration needed
+   - Railway uses Nixpacks to build
+   - App deploys automatically
 
-4. **Alternative: Using Railway CLI**
-   ```bash
-   # Install Railway CLI
-   npm install -g @railway/cli
+### 📋 Deployment Methods
 
-   # Login
-   railway login
+This repository supports **3 deployment methods**:
 
-   # Initialize project
-   railway init
+1. **Nixpacks (Automatic)** - Recommended ⭐
+   - Uses: `nixpacks.toml`, `Procfile`
+   - No Docker required
+   - Fastest and simplest
 
-   # Deploy
-   railway up
-   ```
+2. **Dockerfile (Multi-stage)**
+   - Uses: `Dockerfile`
+   - Optimized production build
+   - Smaller image size
 
-### Railway Configuration Files
+3. **Dockerfile.railway (Simple)**
+   - Uses: `Dockerfile.railway`
+   - Single-stage build
+   - Fallback option
 
-The repository includes:
-- `railway.json` - Railway deployment configuration
-- `railway.toml` - Alternative configuration format
-- `Dockerfile.railway` - Simplified Dockerfile for Railway (optional)
+### 🔧 Configuration Files
 
-If you encounter build issues, you can use the simplified Dockerfile:
+The repository includes complete Railway configuration:
+- `nixpacks.toml` - Nixpacks build configuration
+- `Procfile` - Start command
+- `railway.json` - Railway settings
+- `railway.toml` - Alternative Railway config
+- `Dockerfile` - Production Docker build
+- `Dockerfile.railway` - Simplified Docker build
+
+### 📚 Detailed Guide
+
+**Having deployment issues?** See the complete guide:
+📖 **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Comprehensive Railway deployment guide with troubleshooting
+
+### ⚡ Railway CLI (Alternative)
+
 ```bash
-# In Railway dashboard, set custom Dockerfile path:
-# Settings → Build → Dockerfile Path: Dockerfile.railway
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login
+railway login
+
+# Initialize project
+railway init
+
+# Deploy
+railway up
 ```
+
+### 🔄 Switching Deployment Methods
+
+In Railway Dashboard → Settings → Build:
+- **For Nixpacks:** Set Builder = "Nixpacks"
+- **For Docker:** Set Builder = "Dockerfile", Path = "Dockerfile"
+- **For Simple Docker:** Set Builder = "Dockerfile", Path = "Dockerfile.railway"
 
 ## Project Structure
 

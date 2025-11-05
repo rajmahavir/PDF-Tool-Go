@@ -1,8 +1,6 @@
 module pdf-merger
 
-go 1.24.0
-
-toolchain go1.24.7
+go 1.21
 
 require github.com/pdfcpu/pdfcpu v0.11.1
 
